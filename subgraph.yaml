@@ -1,19 +1,19 @@
-specVersion: 0.0.2
-description: Compound is an open-source protocol for algorithmic, efficient Money Markets on the Ethereum blockchain.
+specVersion: 0.0.4
+description: Ionic is an open-source protocol for algorithmic, efficient Money Markets on the Mode blockchain.
 repository: https://github.com/graphprotocol/compound-V2-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: cBAT
+    name: ionUSDC
     network: mainnet
     source:
-      address: "0x6c8c6b02e7b2be14d4fa6022dfd6d75921d90e4e"
+      address: '0x2BE717340023C9e14C1Bb12cb3ecBcfd3c3fB038'
       abi: CToken
-      startBlock: 7700000
+      startBlock: 2663583
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/ctoken.ts
       entities:
@@ -30,10 +30,10 @@ dataSources:
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
-#        - event: Mint(address,uint256,uint256)
-#          handler: handleMint
-#        - event: Redeem(address,uint256,uint256)
-#          handler: handleRedeem
+        #        - event: Mint(address,uint256,uint256)
+        #          handler: handleMint
+        #        - event: Redeem(address,uint256,uint256)
+        #          handler: handleRedeem
         - event: Borrow(address,uint256,uint256,uint256)
           handler: handleBorrow
         - event: RepayBorrow(address,address,uint256,uint256,uint256)
@@ -49,15 +49,15 @@ dataSources:
         - event: NewMarketInterestRateModel(address,address)
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
-    name: cDAI
+    name: ionUSDT
     network: mainnet
     source:
-      address: "0xf5dce57282a584d2746faf1593d3121fcac444dc"
+      address: '0x94812F2eEa03A49869f95e1b5868C6f3206ee3D3'
       abi: CToken
-      startBlock: 7700000
+      startBlock: 2663587
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/ctoken.ts
       entities:
@@ -74,10 +74,10 @@ dataSources:
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
-#        - event: Mint(address,uint256,uint256)
-#          handler: handleMint
-#        - event: Redeem(address,uint256,uint256)
-#          handler: handleRedeem
+        #        - event: Mint(address,uint256,uint256)
+        #          handler: handleMint
+        #        - event: Redeem(address,uint256,uint256)
+        #          handler: handleRedeem
         - event: Borrow(address,uint256,uint256,uint256)
           handler: handleBorrow
         - event: RepayBorrow(address,address,uint256,uint256,uint256)
@@ -93,15 +93,15 @@ dataSources:
         - event: NewMarketInterestRateModel(address,address)
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
-    name: cETH
+    name: ionWBTC
     network: mainnet
     source:
-      address: "0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5"
+      address: '0xd70254C3baD29504789714A7c69d60Ec1127375C'
       abi: CToken
-      startBlock: 7700000
+      startBlock: 3357450
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/ctoken.ts
       entities:
@@ -116,10 +116,10 @@ dataSources:
         - name: PriceOracle2
           file: ./abis/priceOracle2.json
       eventHandlers:
-#        - event: Mint(address,uint256,uint256)
-#          handler: handleMint
-#        - event: Redeem(address,uint256,uint256)
-#          handler: handleRedeem
+        #        - event: Mint(address,uint256,uint256)
+        #          handler: handleMint
+        #        - event: Redeem(address,uint256,uint256)
+        #          handler: handleRedeem
         - event: Borrow(address,uint256,uint256,uint256)
           handler: handleBorrow
         - event: RepayBorrow(address,address,uint256,uint256,uint256)
@@ -135,59 +135,15 @@ dataSources:
         - event: NewMarketInterestRateModel(address,address)
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
-    name: cREP
+    name: ionWETH
     network: mainnet
     source:
-      address: "0x158079ee67fce2f58472a96584a73c7ab9ac95c1"
+      address: '0x71ef7EDa2Be775E5A7aa8afD02C45F059833e9d2'
       abi: CToken
-      startBlock: 7700000
+      startBlock: 2663580
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
-      language: wasm/assemblyscript
-      file: ./src/mappings/ctoken.ts
-      entities:
-        - User
-        - Market
-        - CTokenInfo
-      abis:
-        - name: CToken
-          file: ./abis/ctoken.json
-        - name: PriceOracle
-          file: ./abis/priceOracle.json
-        - name: PriceOracle2
-          file: ./abis/priceOracle2.json
-        - name: ERC20
-          file: ./abis/erc20.json
-      eventHandlers:
-#        - event: Mint(address,uint256,uint256)
-#          handler: handleMint
-#        - event: Redeem(address,uint256,uint256)
-#          handler: handleRedeem
-        - event: Borrow(address,uint256,uint256,uint256)
-          handler: handleBorrow
-        - event: RepayBorrow(address,address,uint256,uint256,uint256)
-          handler: handleRepayBorrow
-        - event: LiquidateBorrow(address,address,uint256,address,uint256)
-          handler: handleLiquidateBorrow
-        - event: AccrueInterest(uint256,uint256,uint256)
-          handler: handleAccrueInterest
-        - event: NewReserveFactor(uint256,uint256)
-          handler: handleNewReserveFactor
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-        - event: NewMarketInterestRateModel(address,address)
-          handler: handleNewMarketInterestRateModel
-  - kind: ethereum/contract
-    name: cUSDC
-    network: mainnet
-    source:
-      address: "0x39aa39c021dfbae8fac545936693ac917d5e7563"
-      abi: CToken
-      startBlock: 7700000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/ctoken.ts
       entities:
@@ -204,10 +160,10 @@ dataSources:
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
-#        - event: Mint(address,uint256,uint256)
-#          handler: handleMint
-#        - event: Redeem(address,uint256,uint256)
-#          handler: handleRedeem
+        #        - event: Mint(address,uint256,uint256)
+        #          handler: handleMint
+        #        - event: Redeem(address,uint256,uint256)
+        #          handler: handleRedeem
         - event: Borrow(address,uint256,uint256,uint256)
           handler: handleBorrow
         - event: RepayBorrow(address,address,uint256,uint256,uint256)
@@ -223,15 +179,15 @@ dataSources:
         - event: NewMarketInterestRateModel(address,address)
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
-    name: cWBTC
+    name: ionezETH
     network: mainnet
     source:
-      address: "0xc11b1268c1a384e55c48c2391d8d480264a3a7f4"
+      address: '0x59e710215d45F584f44c0FEe83DA6d43D762D857'
       abi: CToken
-      startBlock: 7700000
+      startBlock: 4871892
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/ctoken.ts
       entities:
@@ -248,10 +204,10 @@ dataSources:
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
-#        - event: Mint(address,uint256,uint256)
-#          handler: handleMint
-#        - event: Redeem(address,uint256,uint256)
-#          handler: handleRedeem
+        #        - event: Mint(address,uint256,uint256)
+        #          handler: handleMint
+        #        - event: Redeem(address,uint256,uint256)
+        #          handler: handleRedeem
         - event: Borrow(address,uint256,uint256,uint256)
           handler: handleBorrow
         - event: RepayBorrow(address,address,uint256,uint256,uint256)
@@ -267,15 +223,15 @@ dataSources:
         - event: NewMarketInterestRateModel(address,address)
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
-    name: cZRX
+    name: ionweETH
     network: mainnet
     source:
-      address: "0xb3319f5d18bc0d84dd1b4825dcde5d5f7266d407"
+      address: '0x9a9072302b775ffbd3db79a7766e75cf82bcac0a'
       abi: CToken
-      startBlock: 7700000
+      startBlock: 5130020
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/ctoken.ts
       entities:
@@ -292,10 +248,54 @@ dataSources:
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
-#        - event: Mint(address,uint256,uint256)
-#          handler: handleMint
-#        - event: Redeem(address,uint256,uint256)
-#          handler: handleRedeem
+        #        - event: Mint(address,uint256,uint256)
+        #          handler: handleMint
+        #        - event: Redeem(address,uint256,uint256)
+        #          handler: handleRedeem
+        - event: Borrow(address,uint256,uint256,uint256)
+          handler: handleBorrow
+        - event: RepayBorrow(address,address,uint256,uint256,uint256)
+          handler: handleRepayBorrow
+        - event: LiquidateBorrow(address,address,uint256,address,uint256)
+          handler: handleLiquidateBorrow
+        - event: AccrueInterest(uint256,uint256,uint256)
+          handler: handleAccrueInterest
+        - event: NewReserveFactor(uint256,uint256)
+          handler: handleNewReserveFactor
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: NewMarketInterestRateModel(address,address)
+          handler: handleNewMarketInterestRateModel
+  - kind: ethereum/contract
+    name: ionSTONE
+    network: mainnet
+    source:
+      address: '0x959fa710ccbb22c7ce1e59da82a247e686629310'
+      abi: CToken
+      startBlock: 5615200
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ctoken.ts
+      entities:
+        - User
+        - Market
+        - CTokenInfo
+      abis:
+        - name: CToken
+          file: ./abis/ctoken.json
+        - name: PriceOracle
+          file: ./abis/priceOracle.json
+        - name: PriceOracle2
+          file: ./abis/priceOracle2.json
+        - name: ERC20
+          file: ./abis/erc20.json
+      eventHandlers:
+        #        - event: Mint(address,uint256,uint256)
+        #          handler: handleMint
+        #        - event: Redeem(address,uint256,uint256)
+        #          handler: handleRedeem
         - event: Borrow(address,uint256,uint256,uint256)
           handler: handleBorrow
         - event: RepayBorrow(address,address,uint256,uint256,uint256)
@@ -314,12 +314,12 @@ dataSources:
     name: Comptroller
     network: mainnet
     source:
-      address: "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B"
+      address: '0xfb3323e24743caf4add0fdccfb268565c0685556'
       abi: Comptroller
-      startBlock: 7700000
+      startBlock: 2316948
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/comptroller.ts
       entities:

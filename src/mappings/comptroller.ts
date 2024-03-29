@@ -17,8 +17,8 @@ export function handleMarketEntered(event: MarketEntered): void {
   let market = Market.load(event.params.cToken.toHexString())
   let accountID = event.params.account.toHex()
   let cTokenStats = updateCommonCTokenStats(
-    market.id,
-    market.symbol,
+    market!.id,
+    market!.symbol,
     accountID,
     event.transaction.hash,
     event.block.timestamp.toI32(),
@@ -32,8 +32,8 @@ export function handleMarketExited(event: MarketExited): void {
   let market = Market.load(event.params.cToken.toHexString())
   let accountID = event.params.account.toHex()
   let cTokenStats = updateCommonCTokenStats(
-    market.id,
-    market.symbol,
+    market!.id,
+    market!.symbol,
     accountID,
     event.transaction.hash,
     event.block.timestamp.toI32(),
@@ -45,29 +45,29 @@ export function handleMarketExited(event: MarketExited): void {
 
 export function handleNewCloseFactor(event: NewCloseFactor): void {
   let comptroller = Comptroller.load('1')
-  comptroller.closeFactor = event.params.newCloseFactorMantissa
-  comptroller.save()
+  comptroller!.closeFactor = event.params.newCloseFactorMantissa
+  comptroller!.save()
 }
 
 export function handleNewCollateralFactor(event: NewCollateralFactor): void {
   let market = Market.load(event.params.cToken.toHexString())
-  market.collateralFactor = event.params.newCollateralFactorMantissa
+  market!.collateralFactor = event.params.newCollateralFactorMantissa
     .toBigDecimal()
     .div(mantissaFactorBD)
-  market.save()
+  market!.save()
 }
 
 // This should be the first event acccording to etherscan but it isn't.... price oracle is. weird
 export function handleNewLiquidationIncentive(event: NewLiquidationIncentive): void {
   let comptroller = Comptroller.load('1')
-  comptroller.liquidationIncentive = event.params.newLiquidationIncentiveMantissa
-  comptroller.save()
+  comptroller!.liquidationIncentive = event.params.newLiquidationIncentiveMantissa
+  comptroller!.save()
 }
 
 export function handleNewMaxAssets(event: NewMaxAssets): void {
   let comptroller = Comptroller.load('1')
-  comptroller.maxAssets = event.params.newMaxAssets
-  comptroller.save()
+  comptroller!.maxAssets = event.params.newMaxAssets
+  comptroller!.save()
 }
 
 export function handleNewPriceOracle(event: NewPriceOracle): void {
