@@ -48,7 +48,7 @@ function getTokenPrice(
   if (blockNumber > 7715908) {
     let mantissaDecimalFactor = 18 - underlyingDecimals + 18
     let bdFactor = exponentToBigDecimal(mantissaDecimalFactor)
-    let oracle2 = PriceOracle2.bind(oracleAddress)
+    let oracle2 = MasterPriceOracle.bind(oracleAddress)
     underlyingPrice = oracle2
       .getUnderlyingPrice(eventAddress)
       .toBigDecimal()
@@ -63,9 +63,9 @@ function getTokenPrice(
      * Note this returns the value already factoring in token decimals and wei, therefore
      * we only need to divide by the mantissa, 10^18 */
   } else {
-    let oracle1 = PriceOracle.bind(priceOracle1Address)
+    let oracle1 = MasterPriceOracle.bind(priceOracle1Address)
     underlyingPrice = oracle1
-      .getPrice(underlyingAddress)
+      .price(underlyingAddress)
       .toBigDecimal()
       .div(mantissaFactorBD)
   }
@@ -76,10 +76,6 @@ function getTokenPrice(
 function getUSDCpriceETH(blockNumber: i32): BigDecimal {
   let comptroller = Comptroller.load('1')
   let oracleAddress = comptroller!.priceOracle as Address
-  let masterPriceOracleAddress = Address.fromString(
-    '0x2baf3a2b667a5027a83101d218a9e8b73577f117',
-  )
-  let USDCAddress = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48 '
   let usdPrice: BigDecimal
 
   // See notes on block number if statement in getTokenPrices()

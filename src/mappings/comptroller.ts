@@ -6,7 +6,6 @@ import {
   NewCloseFactor,
   NewCollateralFactor,
   NewLiquidationIncentive,
-  NewMaxAssets,
   NewPriceOracle,
 } from '../types/comptroller/Comptroller'
 
@@ -61,12 +60,6 @@ export function handleNewCollateralFactor(event: NewCollateralFactor): void {
 export function handleNewLiquidationIncentive(event: NewLiquidationIncentive): void {
   let comptroller = Comptroller.load('1')
   comptroller!.liquidationIncentive = event.params.newLiquidationIncentiveMantissa
-  comptroller!.save()
-}
-
-export function handleNewMaxAssets(event: NewMaxAssets): void {
-  let comptroller = Comptroller.load('1')
-  comptroller!.maxAssets = event.params.newMaxAssets
   comptroller!.save()
 }
 
