@@ -18,8 +18,7 @@ import {
   zeroBD,
 } from './helpers'
 
-let cUSDCAddress = '0x39aa39c021dfbae8fac545936693ac917d5e7563'
-let cETHAddress = '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5'
+let ionUSDCAddress = '0x2BE717340023C9e14C1Bb12cb3ecBcfd3c3fB038'
 let daiAddress = '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359'
 
 // Used for all cERC20 contracts
@@ -107,33 +106,19 @@ export function createMarket(marketAddress: string): Market {
   let market: Market
   let contract = CToken.bind(Address.fromString(marketAddress))
 
-  // It is CETH, which has a slightly different interface
-  if (marketAddress == cETHAddress) {
-    market = new Market(marketAddress)
-    market.underlyingAddress = Address.fromString(
-      '0x0000000000000000000000000000000000000000',
-    )
-    market.underlyingDecimals = 18
-    market.underlyingPrice = BigDecimal.fromString('1')
-    market.underlyingName = 'Ether'
-    market.underlyingSymbol = 'ETH'
-
-    // It is all other CERC20 contracts
+  market = new Market(marketAddress)
+  market.underlyingAddress = contract.underlying()
+  let underlyingContract = ERC20.bind(market.underlyingAddress as Address)
+  market.underlyingDecimals = underlyingContract.decimals()
+  if (market.underlyingAddress.toHexString() != daiAddress) {
+    market.underlyingName = underlyingContract.name()
+    market.underlyingSymbol = underlyingContract.symbol()
   } else {
-    market = new Market(marketAddress)
-    market.underlyingAddress = contract.underlying()
-    let underlyingContract = ERC20.bind(market.underlyingAddress as Address)
-    market.underlyingDecimals = underlyingContract.decimals()
-    if (market.underlyingAddress.toHexString() != daiAddress) {
-      market.underlyingName = underlyingContract.name()
-      market.underlyingSymbol = underlyingContract.symbol()
-    } else {
-      market.underlyingName = 'Dai Stablecoin v1.0 (DAI)'
-      market.underlyingSymbol = 'DAI'
-    }
-    if (marketAddress == cUSDCAddress) {
-      market.underlyingPriceUSD = BigDecimal.fromString('1')
-    }
+    market.underlyingName = 'Dai Stablecoin v1.0 (DAI)'
+    market.underlyingSymbol = 'DAI'
+  }
+  if (marketAddress == ionUSDCAddress) {
+    market.underlyingPriceUSD = BigDecimal.fromString('1')
   }
 
   market.borrowRate = zeroBD

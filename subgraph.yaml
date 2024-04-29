@@ -1,12 +1,12 @@
 specVersion: 0.0.4
 description: Ionic is an open-source protocol for algorithmic, efficient Money Markets on the Mode blockchain.
-repository: https://github.com/graphprotocol/compound-V2-subgraph
+repository: https://github.com/ionicprotocol/ionic-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: ionUSDC
-    network: mainnet
+    network: mode-mainnet
     source:
       address: '0x2BE717340023C9e14C1Bb12cb3ecBcfd3c3fB038'
       abi: CToken
@@ -21,12 +21,10 @@ dataSources:
         - Market
         - CTokenInfo
       abis:
-        - name: CToken
-          file: ./abis/ctoken.json
-        - name: PriceOracle
+        - name: CERC20
+          file: ./abis/cERC20.json
+        - name: MasterPriceOracle
           file: ./abis/priceOracle.json
-        - name: PriceOracle2
-          file: ./abis/priceOracle2.json
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
@@ -50,7 +48,7 @@ dataSources:
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
     name: ionUSDT
-    network: mainnet
+    network: mode-mainnet
     source:
       address: '0x94812F2eEa03A49869f95e1b5868C6f3206ee3D3'
       abi: CToken
@@ -65,12 +63,10 @@ dataSources:
         - Market
         - CTokenInfo
       abis:
-        - name: CToken
+        - name: CERC20
           file: ./abis/ctoken.json
-        - name: PriceOracle
+        - name: MasterPriceOracle
           file: ./abis/priceOracle.json
-        - name: PriceOracle2
-          file: ./abis/priceOracle2.json
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
@@ -94,7 +90,7 @@ dataSources:
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
     name: ionWBTC
-    network: mainnet
+    network: mode-mainnet
     source:
       address: '0xd70254C3baD29504789714A7c69d60Ec1127375C'
       abi: CToken
@@ -109,12 +105,10 @@ dataSources:
         - Market
         - CTokenInfo
       abis:
-        - name: CToken
+        - name: CERC20
           file: ./abis/ctoken.json
-        - name: PriceOracle
+        - name: MasterPriceOracle
           file: ./abis/priceOracle.json
-        - name: PriceOracle2
-          file: ./abis/priceOracle2.json
       eventHandlers:
         #        - event: Mint(address,uint256,uint256)
         #          handler: handleMint
@@ -136,7 +130,7 @@ dataSources:
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
     name: ionWETH
-    network: mainnet
+    network: mode-mainnet
     source:
       address: '0x71ef7EDa2Be775E5A7aa8afD02C45F059833e9d2'
       abi: CToken
@@ -151,12 +145,10 @@ dataSources:
         - Market
         - CTokenInfo
       abis:
-        - name: CToken
+        - name: CERC20
           file: ./abis/ctoken.json
-        - name: PriceOracle
+        - name: MasterPriceOracle
           file: ./abis/priceOracle.json
-        - name: PriceOracle2
-          file: ./abis/priceOracle2.json
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
@@ -180,7 +172,7 @@ dataSources:
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
     name: ionezETH
-    network: mainnet
+    network: mode-mainnet
     source:
       address: '0x59e710215d45F584f44c0FEe83DA6d43D762D857'
       abi: CToken
@@ -195,12 +187,10 @@ dataSources:
         - Market
         - CTokenInfo
       abis:
-        - name: CToken
+        - name: CERC20
           file: ./abis/ctoken.json
-        - name: PriceOracle
+        - name: MasterPriceOracle
           file: ./abis/priceOracle.json
-        - name: PriceOracle2
-          file: ./abis/priceOracle2.json
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
@@ -224,11 +214,11 @@ dataSources:
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
     name: ionweETH
-    network: mainnet
+    network: mode-mainnet
     source:
-      address: '0x9a9072302b775ffbd3db79a7766e75cf82bcac0a'
+      address: '0xA0D844742B4abbbc43d8931a6Edb00C56325aA18'
       abi: CToken
-      startBlock: 5130020
+      startBlock: 6863509
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -239,12 +229,10 @@ dataSources:
         - Market
         - CTokenInfo
       abis:
-        - name: CToken
+        - name: CERC20
           file: ./abis/ctoken.json
-        - name: PriceOracle
+        - name: MasterPriceOracle
           file: ./abis/priceOracle.json
-        - name: PriceOracle2
-          file: ./abis/priceOracle2.json
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
@@ -268,7 +256,7 @@ dataSources:
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
     name: ionSTONE
-    network: mainnet
+    network: mode-mainnet
     source:
       address: '0x959fa710ccbb22c7ce1e59da82a247e686629310'
       abi: CToken
@@ -283,12 +271,10 @@ dataSources:
         - Market
         - CTokenInfo
       abis:
-        - name: CToken
+        - name: CERC20
           file: ./abis/ctoken.json
-        - name: PriceOracle
+        - name: MasterPriceOracle
           file: ./abis/priceOracle.json
-        - name: PriceOracle2
-          file: ./abis/priceOracle2.json
         - name: ERC20
           file: ./abis/erc20.json
       eventHandlers:
@@ -312,7 +298,7 @@ dataSources:
           handler: handleNewMarketInterestRateModel
   - kind: ethereum/contract
     name: Comptroller
-    network: mainnet
+    network: mode-mainnet
     source:
       address: '0xfb3323e24743caf4add0fdccfb268565c0685556'
       abi: Comptroller
@@ -328,7 +314,7 @@ dataSources:
       abis:
         - name: Comptroller
           file: ./abis/comptroller.json
-        - name: PriceOracle
+        - name: MasterPriceOracle
           file: ./abis/priceOracle.json
       eventHandlers:
         - event: MarketEntered(address,address)
