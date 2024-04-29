@@ -3,10 +3,7 @@
 // For each division by 10, add one to exponent to truncate one significant figure
 import { Address, BigDecimal, BigInt, log } from '@graphprotocol/graph-ts/index'
 import { Market, Comptroller } from '../types/schema'
-// PriceOracle is valid from Comptroller deployment until block 8498421
-import { PriceOracle } from '../types/ionUSDC/PriceOracle'
-// PriceOracle2 is valid from 8498422 until present block (until another proxy upgrade)
-import { PriceOracle2 } from '../types/ionUSDC/PriceOracle2'
+import { MasterPriceOracle } from '../types/ionUSDC/MasterPriceOracle'
 import { ERC20 } from '../types/ionUSDC/ERC20'
 import { CToken } from '../types/ionUSDC/CToken'
 
@@ -79,26 +76,20 @@ function getTokenPrice(
 function getUSDCpriceETH(blockNumber: i32): BigDecimal {
   let comptroller = Comptroller.load('1')
   let oracleAddress = comptroller!.priceOracle as Address
-  let priceOracle1Address = Address.fromString('02557a5e05defeffd4cae6d83ea3d173b272c904')
+  let masterPriceOracleAddress = Address.fromString(
+    '0x2baf3a2b667a5027a83101d218a9e8b73577f117',
+  )
   let USDCAddress = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48 '
   let usdPrice: BigDecimal
 
   // See notes on block number if statement in getTokenPrices()
-  if (blockNumber > 7715908) {
-    let oracle2 = PriceOracle2.bind(oracleAddress)
-    let mantissaDecimalFactorUSDC = 18 - 6 + 18
-    let bdFactorUSDC = exponentToBigDecimal(mantissaDecimalFactorUSDC)
-    usdPrice = oracle2
-      .getUnderlyingPrice(Address.fromString(cUSDCAddress))
-      .toBigDecimal()
-      .div(bdFactorUSDC)
-  } else {
-    let oracle1 = PriceOracle.bind(priceOracle1Address)
-    usdPrice = oracle1
-      .getPrice(Address.fromString(USDCAddress))
-      .toBigDecimal()
-      .div(mantissaFactorBD)
-  }
+  let oracle2 = MasterPriceOracle.bind(oracleAddress)
+  let mantissaDecimalFactorUSDC = 18 - 6 + 18
+  let bdFactorUSDC = exponentToBigDecimal(mantissaDecimalFactorUSDC)
+  usdPrice = oracle2
+    .getUnderlyingPrice(Address.fromString(ionUSDCAddress))
+    .toBigDecimal()
+    .div(bdFactorUSDC)
   return usdPrice
 }
 
@@ -164,25 +155,18 @@ export function updateMarket(
     let contract = CToken.bind(contractAddress)
     let usdPriceInEth = getUSDCpriceETH(blockNumber)
 
-    // if cETH, we only update USD price
-    if (market.id == cETHAddress) {
+    let tokenPriceEth = getTokenPrice(
+      blockNumber,
+      contractAddress,
+      market.underlyingAddress as Address,
+      market.underlyingDecimals,
+    )
+    market.underlyingPrice = tokenPriceEth.truncate(market.underlyingDecimals)
+    // if USDC, we only update ETH price
+    if (market.id != ionUSDCAddress) {
       market.underlyingPriceUSD = market.underlyingPrice
         .div(usdPriceInEth)
         .truncate(market.underlyingDecimals)
-    } else {
-      let tokenPriceEth = getTokenPrice(
-        blockNumber,
-        contractAddress,
-        market.underlyingAddress as Address,
-        market.underlyingDecimals,
-      )
-      market.underlyingPrice = tokenPriceEth.truncate(market.underlyingDecimals)
-      // if USDC, we only update ETH price
-      if (market.id != cUSDCAddress) {
-        market.underlyingPriceUSD = market.underlyingPrice
-          .div(usdPriceInEth)
-          .truncate(market.underlyingDecimals)
-      }
     }
 
     market.accrualBlockNumber = contract.accrualBlockNumber().toI32()
